@@ -1,0 +1,68 @@
+<%- include('./layout/head'); %>
+<body>
+    <%- include('./layout/nav'); %>
+    <main>
+        <div class="container-fluid">
+            <h1><%= name %></h1>
+            <form action="/location/review/new" method="post">
+                <div class="mb-3">
+                    <input type="hidden" name="localName" value="<%= name %>">
+                </div>
+                <div class="mb-3">
+                    <label for="useName" class="form-label">Seu nome:</label>
+                    <input type="text" name="userName" id="userName" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="rating" class="form-label">Nota:</label>
+                    <div class="d-flex flex-row">
+                        <i class="fa-regular fa-star star-review" data-index="0" onclick="arrangeStars(this.dataset.index)"></i>
+                        <i class="fa-regular fa-star star-review" data-index="1" onclick="arrangeStars(this.dataset.index)"></i>
+                        <i class="fa-regular fa-star star-review" data-index="2" onclick="arrangeStars(this.dataset.index)"></i>
+                        <i class="fa-regular fa-star star-review" data-index="3" onclick="arrangeStars(this.dataset.index)"></i>
+                        <i class="fa-regular fa-star star-review" data-index="4" onclick="arrangeStars(this.dataset.index)"></i>
+                    </div>
+                    <input type="number" name="rating" id="rating" min="0" max="5" class="form-control" value="5" style="display: none;">
+                </div>
+                <div class="mb-3">
+                    <label for="review" class="form-label">Escreva sua avaliação:</label>
+                    <textarea name="review" id="review" rows="5" class="form-control"></textarea>
+                </div>
+                <input type="submit" value="Adicione sua resenha" class="btn-form">
+            </form>
+        </div>
+    </main>
+    <!--<script src="../../javascripts/site.js"></script>-->
+    <script>
+        let starsIndexClicked = -1;
+        const stars = document.querySelectorAll('.star-review');
+        const inputRating = document.getElementById('rating');
+
+        const clearStars = (arrStars,index) => {
+            for(let i = index; i < arrStars.length; i++){
+                arrStars[i].classList.replace('fa-solid','fa-regular');
+            }
+        }
+        const fillStars = (arrangeStars,index) => {
+            for(let i = 0; i <= index;i++){
+                arrangeStars[i].classList.replace('fa-regular','fa-solid');
+            }
+        }
+        const arrangeStars = (index) => {
+            index = parseInt(index);
+            if( index === starsIndexClicked && stars[index].classList.contains('fa-solid')){
+                clearStars(stars,0);
+                inputRating.value = 0;
+                starsIndexClicked = 0;
+            }else if(index >= starsIndexClicked){
+                fillStars(stars,index);
+                inputRating.value = index + 1;
+                starsIndexClicked = index;
+            }else{
+                clearStars(stars,index+1);
+                inputRating.value = index + 1;
+                starsIndexClicked = index;
+            }
+        }
+    </script>
+    <%- include('./layout/footer'); %>
+</body>
