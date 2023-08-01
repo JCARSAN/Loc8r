@@ -1,0 +1,46 @@
+<%- include('./layout/head'); %>
+<body>
+    <%- include('./layout/nav'); %>
+    <main>
+        <div class="container-fluid">
+            <h1>
+                Loc8r
+                <span>Encontre redes de wifi gratuitas próximas a você.</span>
+            </h1>
+            <div class="container">
+                <% data.forEach((local,index) => { %>
+                    <div class="col-md-12 flex-column box">
+                        <div class="d-flex flex-row align-items-center">
+                            <h4><a href="location/<%= local.name%>"><%= local.name %></a></h4>
+                            <div class="d-flex flex-row align-center starsContainer">
+                               <% let i = 0; let rating = local.rating; %>
+                               <% while(i<rating){ %>
+                                    <i class="fa-solid fa-star"></i>
+                                    <% i += 1 %>
+                               <% } %>
+                               <% while(i<5){ %>
+                                    <i class="fa-regular fa-star"></i>
+                                    <% i+= 1 %>
+                               <% } %>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row justify-content-between align-items-center box-address flex-wrap">
+                            <address><%= local.address %></address>
+                            <span class="coodernate badge text-bg-dark" style="visibility: hidden;"><%= local.coords %></span>
+                        </div>
+                        <div class="d-flex flex-row flex-wrap facilityContainer">
+                            <% local.facilities.forEach((facility) => { %>
+                                <span class="badge text-bg-light">
+                                    <%= facility %>
+                                </span>
+                            <% }) %>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    </main>
+    <script src="../../javascripts/site.js"></script>
+    <%- include('./layout/footer'); %>
+</body>
+</html>
